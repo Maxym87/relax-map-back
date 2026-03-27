@@ -1,7 +1,7 @@
 .vscode
 .DS_Store
 .idea
-
+.env
 # Logs
 logs
 *.log

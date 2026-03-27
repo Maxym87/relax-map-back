@@ -4,8 +4,8 @@ const userSchema = new Schema(
   {
     name: { type: String, trim: true },
     email: { type: String, unique: true, required: true, trim: true },
-    password: { type: String, required: true },
-    avatarUrl: {
+    password: { type: String, required: true, minlength: 8 },
+    avatarUrl: {                          
       type: String,
       default: 'https://ac.goit.global/fullstack/react/default-avatar.jpg',
     },
@@ -26,4 +26,6 @@ userSchema.methods.toJSON = function () {
   return obj;
 };
 
+
 export const User = model('User', userSchema);
+
