@@ -1,4 +1,58 @@
+
+import createHttpError from 'http-errors';
+import mongoose from 'mongoose';
 import Location from '../models/location.js';
+import { getLocations, getLocationById } from '../services/locationService.js';
+
+
+export const getLocationsController = async (req, res) => {
+  const { page, limit, region, type, search } = req.query;
+
+  if (region && !mongoose.Types.ObjectId.isValid(region)) {
+    throw createHttpError(400, 'Invalid region id');
+  }
+
+  if (type && !mongoose.Types.ObjectId.isValid(type)) {
+    throw createHttpError(400, 'Invalid type id');
+  }
+
+  const data = await getLocations({
+    page,
+    limit,
+    region,
+    type,
+    search,
+  });
+
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully found locations!',
+    data,
+  });
+};
+
+
+export const getLocationByIdController = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw createHttpError(400, 'Invalid location id');
+  }
+
+  const location = await getLocationById(id);
+
+  if (!location) {
+    throw createHttpError(404, 'Location not found');
+  }
+
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully found location!',
+    data: location,
+  });
+};
+
+
 
 export const createLocationController = async (req, res) => {
   try {
@@ -12,8 +66,7 @@ export const createLocationController = async (req, res) => {
 
     const location = await Location.create({
       ...req.body,
-      author: userId,
-      image: req.file.buffer.toString('base64'),
+      images: [req.file.buffer.toString('base64')],
     });
 
     res.status(201).json({
@@ -26,6 +79,7 @@ export const createLocationController = async (req, res) => {
     });
   }
 };
+
 
 export const updateLocationController = async (req, res) => {
   try {
@@ -41,10 +95,10 @@ export const updateLocationController = async (req, res) => {
       });
     }
 
-    if (location.author.toString() !== userId.toString()) {
+    if (location.owner.toString() !== userId.toString()) {
       return res.status(403).json({
         status: 403,
-        message: 'Forbidden: only author can edit this location',
+        message: 'Forbidden',
       });
     }
 
@@ -53,7 +107,7 @@ export const updateLocationController = async (req, res) => {
     };
 
     if (req.file) {
-      updatedData.image = req.file.buffer.toString('base64');
+      updatedData.images = [req.file.buffer.toString('base64')];
     }
 
     const updatedLocation = await Location.findByIdAndUpdate(
