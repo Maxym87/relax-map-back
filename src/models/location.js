@@ -1,19 +1,78 @@
-import mongoose from 'mongoose';
 
-const locationSchema = new mongoose.Schema(
+import { Schema, model } from "mongoose";
+
+
+const regionSchema = new Schema(
   {
-    name: { type: String, required: true },
-    type: { type: String, required: true },
-    region: { type: String, required: true },
-    description: { type: String, required: true },
-    image: { type: String, required: true },
-    author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+    region: {
+      type: String,
       required: true,
+      unique: true,
+      trim: true,
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    level: {
+      type: String,
+      required: false,
+      trim: true,
+      default: '',
+    },
+    note: {
+      type: String,
+      required: false,
+      trim: true,
+      default: '',
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    versionKey: false,
+  }
 );
 
-export default mongoose.model('Location', locationSchema);
+regionSchema.index(
+  { region: 'text', note: 'text' }
+);
+
+export const Region = model('Region', regionSchema);
+
+const locationTypeSchema = new Schema(
+   {
+    type: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    shortDescription: {
+      type: String,
+      required: false,
+      trim: true,
+      default: '',
+    },
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+);
+
+locationTypeSchema.index(
+  { type: 'text', shortDescription: 'text'}
+);
+
+export const LocationType = model('LocationType', locationTypeSchema);
+
