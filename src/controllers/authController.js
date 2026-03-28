@@ -63,6 +63,7 @@ res.clearCookie('accessToken');
 res.clearCookie('refreshToken');
 
 res.status(204).send();
+};
 export const refreshUserSession = async (req, res) => {
   const session = await Session.findOne({
     _id: req.cookies.sessionId,

@@ -1,7 +1,7 @@
 
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
-import Location from '../models/location.js';
+import {Location} from '../models/location.js';
 import { getLocations, getLocationById } from '../services/locationService.js';
 
 
@@ -66,6 +66,7 @@ export const createLocationController = async (req, res) => {
 
     const location = await Location.create({
       ...req.body,
+      owner: userId,
       images: [req.file.buffer.toString('base64')],
     });
 
