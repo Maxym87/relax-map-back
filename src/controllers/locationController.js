@@ -1,6 +1,9 @@
+
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
+import Location from '../models/location.js';
 import { getLocations, getLocationById } from '../services/locationService.js';
+
 
 export const getLocationsController = async (req, res) => {
   const { page, limit, region, type, search } = req.query;
@@ -28,6 +31,7 @@ export const getLocationsController = async (req, res) => {
   });
 };
 
+
 export const getLocationByIdController = async (req, res) => {
   const { id } = req.params;
 
@@ -46,4 +50,82 @@ export const getLocationByIdController = async (req, res) => {
     message: 'Successfully found location!',
     data: location,
   });
+};
+
+
+
+export const createLocationController = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    if (!req.file) {
+      return res.status(400).json({
+        message: 'Image is required',
+      });
+    }
+
+    const location = await Location.create({
+      ...req.body,
+      images: [req.file.buffer.toString('base64')],
+    });
+
+    res.status(201).json({
+      status: 201,
+      data: location,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+
+export const updateLocationController = async (req, res) => {
+  try {
+    const { locationId } = req.params;
+    const userId = req.user._id;
+
+    const location = await Location.findById(locationId);
+
+    if (!location) {
+      return res.status(404).json({
+        status: 404,
+        message: 'Location not found',
+      });
+    }
+
+    if (location.owner.toString() !== userId.toString()) {
+      return res.status(403).json({
+        status: 403,
+        message: 'Forbidden',
+      });
+    }
+
+    const updatedData = {
+      ...req.body,
+    };
+
+    if (req.file) {
+      updatedData.images = [req.file.buffer.toString('base64')];
+    }
+
+    const updatedLocation = await Location.findByIdAndUpdate(
+      locationId,
+      updatedData,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    return res.status(200).json({
+      status: 200,
+      data: updatedLocation,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
 };

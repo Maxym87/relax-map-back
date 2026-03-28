@@ -1,4 +1,6 @@
+
 import { Schema, model } from 'mongoose';
+
 
 const regionSchema = new Schema(
   {
@@ -17,14 +19,10 @@ const regionSchema = new Schema(
     },
     level: {
       type: String,
-      required: false,
-      trim: true,
       default: '',
     },
     note: {
       type: String,
-      required: false,
-      trim: true,
       default: '',
     },
   },
@@ -45,31 +43,42 @@ const locationSchema = new Schema(
       required: true,
       trim: true,
     },
+
+
     description: {
       type: String,
       default: '',
       trim: true,
     },
+
+
     region: {
       type: Schema.Types.ObjectId,
       ref: 'Region',
       required: true,
     },
+
+
     type: {
       type: Schema.Types.ObjectId,
       ref: 'LocationType',
       required: true,
     },
+
+
     images: {
       type: [String],
       default: [],
     },
+
     rating: {
       type: Number,
       default: 0,
       min: 0,
       max: 5,
     },
+
+
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -85,6 +94,7 @@ const locationSchema = new Schema(
 locationSchema.index({ name: 'text', description: 'text' });
 
 export const Location = model('Location', locationSchema);
+
 
 const locationTypeSchema = new Schema(
   {
@@ -103,8 +113,6 @@ const locationTypeSchema = new Schema(
     },
     shortDescription: {
       type: String,
-      required: false,
-      trim: true,
       default: '',
     },
   },
@@ -115,5 +123,6 @@ const locationTypeSchema = new Schema(
 );
 
 locationTypeSchema.index({ type: 'text', shortDescription: 'text' });
+
 
 export const LocationType = model('LocationType', locationTypeSchema);
