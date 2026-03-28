@@ -1,3 +1,4 @@
+
 import { Schema, model } from "mongoose";
 
 
@@ -73,4 +74,5 @@ locationTypeSchema.index(
   { type: 'text', shortDescription: 'text'}
 );
 
-export const LocationType = model('Location', locationTypeSchema);
+export const LocationType = model('LocationType', locationTypeSchema);
+
