@@ -1,0 +1,2 @@
+const FEEDBACK_SORT_BY_CREATED_AT = { createdAt: -1 };
+export { FEEDBACK_SORT_BY_CREATED_AT }; 
