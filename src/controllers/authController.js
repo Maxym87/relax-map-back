@@ -53,6 +53,16 @@ export const loginUser = async (req, res) => {
   });
 };
 
+export const logoutUser = async (req, res) => {
+const {sessionId} = req.cookies;
+if (sessionId) {
+  await Session.deleteOne({_id: sessionId});
+}
+res.clearCookie('sessionId');
+res.clearCookie('accessToken');
+res.clearCookie('refreshToken');
+
+res.status(204).send();
 export const refreshUserSession = async (req, res) => {
   const session = await Session.findOne({
     _id: req.cookies.sessionId,

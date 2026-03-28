@@ -8,7 +8,10 @@ import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { logger } from './middleware/logger.js';
 import { errors } from 'celebrate';
 import authRoutes from './routes/authRoutes.js';
+import categoriesRoutes from './routes/categoriesRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import locationRouter from './routes/locationRoutes.js';
+
 
 const PORT = process.env.PORT ?? 3000;
 
@@ -18,7 +21,10 @@ app.use(logger);
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
+
 app.use(authRoutes);
+app.use(categoriesRoutes);
+app.use(userRoutes);
 app.use('/api/locations', locationRouter);
 
 app.use(notFoundHandler);
