@@ -47,6 +47,10 @@ export const createFeedback = async (req, res) => {
   if (!location) {
     throw createHttpError(404, 'Location not found');
   }
+  if (!req.user) {
+  throw createHttpError(401, 'Unauthorized');
+}
+
 
   const payload = {
     rate: req.body.rate,
@@ -58,4 +62,24 @@ export const createFeedback = async (req, res) => {
   const feedback = await feedbackService.createFeedback(payload);
 
   res.status(201).json(feedback);
+};
+
+export const getAllFeedbacks = async (req, res) => {
+  const { page, perPage, skip, limit } = getPagination(
+    req.query,
+    FEEDBACK_PAGINATION,
+  );
+
+  const [feedbacks, total] = await Promise.all([
+    feedbackService.findFeedbacks({ filter: {}, skip, limit }),
+    feedbackService.countFeedbacks({ filter: {} }),
+  ]);
+
+  res.json({
+    page,
+    perPage,
+    total,
+    totalPages: Math.ceil(total / perPage),
+    feedbacks,
+  });
 };

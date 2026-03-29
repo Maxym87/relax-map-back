@@ -13,6 +13,7 @@ export const countFeedbacks = ({ filter }) => {
   return Feedback.countDocuments(filter);
 };
 
+
 export const createFeedback = async (payload) => {
   const { locationId, rate, description, userName } = payload;
   const feedback = await Feedback.create({

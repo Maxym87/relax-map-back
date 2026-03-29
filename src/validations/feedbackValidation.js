@@ -3,7 +3,8 @@ import { FEEDBACK_PAGINATION } from '../constants/pagination.js';
 import { locationIdValidator } from './locationsValidation.js';
 
 const feedbackListQuerySchema = Joi.object({
-  page: Joi.number()
+  page: Joi.number().min(1).default(1),
+  perPage: Joi.number().min(1).max(50).default(10),
 });
 
 export const getFeedbacksByLocationSchema = {
@@ -11,6 +12,8 @@ export const getFeedbacksByLocationSchema = {
   [Segments.QUERY]: feedbackListQuerySchema,
 };
 
+export const getAllFeedbacksSchema = {
+  [Segments.QUERY]: feedbackListQuerySchema,
 };
 
 export const createFeedbackSchema = {

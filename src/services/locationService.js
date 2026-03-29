@@ -1,9 +1,6 @@
-mport { Feedback } from '../models/feedback.js';
-import { Location } from '../models/location.js';
+import { Feedback } from '../models/feedback.js';
+import { Location } from '../models/location.js'
 
-const getAllLocations = (filter, sort, skip, limit) => {
-  });
-};
 
 const pushFeedbackId = (locationId, feedbackId) => {
   return Location.findByIdAndUpdate(locationId, {
@@ -32,11 +29,7 @@ const updateLocationAverageRate = async (locationId) => {
 };
 
 export default {
-  getAllLocations,
-  getAllLocationsCount,
-  getLocationById,
-  createLocation,
-  updateLocation,
+
   pushFeedbackId,
   updateLocationAverageRate,
 };
