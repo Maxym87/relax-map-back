@@ -1,18 +1,19 @@
 import { Feedback } from '../models/feedback.js';
-import { Location } from '../models/location.js';
-const getAllLocations = (filter, sort, skip, limit) => {
-  });
-};
+import { Location } from '../models/location.js'
+
+
 const pushFeedbackId = (locationId, feedbackId) => {
   return Location.findByIdAndUpdate(locationId, {
     $push: { feedbacksId: feedbackId },
   });
 };
+
 const updateLocationAverageRate = async (locationId) => {
   const location = await Location.findById(locationId).select('feedbacksId');
   if (!location) {
-    return;}
-	  const ids = location.feedbacksId || [];
+    return;
+  }
+  const ids = location.feedbacksId || [];
   if (ids.length === 0) {
     return;
   }
@@ -25,13 +26,10 @@ const updateLocationAverageRate = async (locationId) => {
   }
   const rounded = Math.round(row.avgRate * 2) / 2;
   await Location.findByIdAndUpdate(locationId, { rate: rounded });
-  };
+};
+
 export default {
-  getAllLocations,
-  getAllLocationsCount,
-  getLocationById,
-  createLocation,
-  updateLocation,
+
   pushFeedbackId,
   updateLocationAverageRate,
 };

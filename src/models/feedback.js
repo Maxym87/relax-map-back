@@ -1,3 +1,4 @@
+
 import { model, Schema } from 'mongoose';
 
 const feedbackSchema = new Schema({
@@ -12,3 +13,4 @@ const feedbackSchema = new Schema({
 }, { timestamps: true });
 
 export const Feedback = model('Feedback', feedbackSchema);
+
