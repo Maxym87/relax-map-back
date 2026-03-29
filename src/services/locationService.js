@@ -1,5 +1,27 @@
 import { Feedback } from '../models/feedback.js';
-import { Location } from '../models/location.js'
+import { Location } from '../models/location.js';
+
+
+
+
+const getLocations = async ({ page = 1, limit = 10, region, type, search }) =>{
+    const filter = {};
+  if (region) filter.region = region;
+  if (type) filter.type = type;
+  if (search) filter.name = { $regex: search, $options: 'i' };
+
+  const skip = (page - 1) * limit;
+  const locations = await Location.find(filter).skip(skip).limit(limit);
+
+  return locations;
+};
+
+const getLocationById = async(id)=>{
+  const location = await Location.findById(id).populate('feedbacksId');
+  return location;
+};
+
+
 
 
 const pushFeedbackId = (locationId, feedbackId) => {
@@ -32,4 +54,6 @@ export default {
 
   pushFeedbackId,
   updateLocationAverageRate,
+  getLocations,
+  getLocationById,
 };
