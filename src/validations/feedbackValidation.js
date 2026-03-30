@@ -1,6 +1,18 @@
 import { Joi, Segments } from 'celebrate';
 import { FEEDBACK_PAGINATION } from '../constants/pagination.js';
-import { locationIdValidator } from './locationsValidation.js';
+
+
+
+
+const locationIdParam = {
+  [Segments.PARAMS]: Joi.object({
+    locationId: Joi.string().hex().length(24).required().messages({
+      'string.base': 'Location ID must be a string',
+      'string.length': 'Location ID must be 24 characters',
+      'any.required': 'Location ID is required',
+    }),
+  }),
+};
 
 const feedbackListQuerySchema = Joi.object({
   page: Joi.number()
@@ -27,7 +39,7 @@ const feedbackListQuerySchema = Joi.object({
 });
 
 export const getFeedbacksByLocationSchema = {
-  ...locationIdValidator,
+  ...locationIdParam,
   [Segments.QUERY]: feedbackListQuerySchema,
 };
 
@@ -36,7 +48,7 @@ export const getAllFeedbacksSchema = {
 };
 
 export const createFeedbackSchema = {
-  ...locationIdValidator,
+  ...locationIdParam,
 
   [Segments.BODY]: Joi.object({
     rate: Joi.number().min(1).max(5).required().messages({
