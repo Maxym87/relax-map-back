@@ -1,17 +1,14 @@
-
-import { celebrate } from 'celebrate';
-import { Router } from 'express';
-import getAllFeedbacksSchema from '../schemas/getAllFeedbacksSchema.js'; // 🔧 добавили
-import getFeedbacksByLocationSchema from '../schemas/getFeedbacksByLocationSchema.js'; // 🔧 оставили
-import createFeedbackSchema from '../schemas/createFeedbackSchema.js'; // 🔧 оставили
-
+mport { authenticate } from '../middleware/authenticate.js';
 import {
   getLocationFeedbacks,
+  getAllFeedbacks,
   createFeedback,
-  getAllFeedbacks, // 🔧 добавили (его нет в dev)
-} from '../controllers/feedbacksController.js';
-
-import { authenticate } from '../middlewares/authenticate.js'; // 🔧 оставили
+} from '../controllers/feedbackController.js';
+import {
+  getFeedbacksByLocationSchema,
+  getAllFeedbacksSchema,
+  createFeedbackSchema,
+} from '../validations/feedbackValidation.js';
 
 const router = Router();
 
