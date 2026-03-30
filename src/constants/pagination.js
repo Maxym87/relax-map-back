@@ -1,4 +1,4 @@
-const FEEDBACK_PAGINATION = {
+export const FEEDBACK_PAGINATION = {
   minPage: 1,
   defaultPage: 1,
   minPerPage: 1,

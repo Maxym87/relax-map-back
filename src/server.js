@@ -11,6 +11,7 @@ import authRoutes from './routes/authRoutes.js';
 import categoriesRoutes from './routes/categoriesRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import locationRouter from './routes/locationRoutes.js';
+import feedbackRouter from './routes/feedbackRoutes.js';
 
 
 const PORT = process.env.PORT ?? 3000;
@@ -26,6 +27,7 @@ app.use(authRoutes);
 app.use(categoriesRoutes);
 app.use(userRoutes);
 app.use('/api/locations', locationRouter);
+app.use('/api', feedbackRouter);
 
 app.use(notFoundHandler);
 app.use(errors());
