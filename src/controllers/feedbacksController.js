@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors';
 import * as feedbackService from '../services/feedbackService.js';
-import locationService from '../services/locationService.js';
+import locationService from '../services/locationService.js'; // ✅ оставить этот
 import { FEEDBACK_PAGINATION } from '../constants/pagination.js';
 import { getPagination } from '../helpers/pagination.js';
 
@@ -9,10 +9,15 @@ const normalizeFeedbackIdRefs = (feedbacksId) =>
 
 export const getLocationFeedbacks = async (req, res) => {
   const { locationId } = req.params;
+
+
+
   const { page, perPage, skip, limit } = getPagination(
     req.query,
     FEEDBACK_PAGINATION,
   );
+
+
 
   const location = await locationService.getLocationById(locationId);
 
@@ -26,9 +31,10 @@ export const getLocationFeedbacks = async (req, res) => {
   const [feedbacks, totalFeedbacks] = await Promise.all([
     feedbackService.findFeedbacks({ filter, skip, limit }),
     feedbackService.countFeedbacks({ filter }),
-]);
+  ]);
 
-const totalPages = Math.ceil(totalFeedbacks / perPage);
+
+  const totalPages = Math.ceil(totalFeedbacks / perPage);
 
   res.status(200).json({
     page,
@@ -65,6 +71,7 @@ export const getAllFeedbacks = async (req, res) => {
 
 export const createFeedback = async (req, res) => {
   const { locationId } = req.params;
+
 
   const location = await locationService.getLocationById(locationId);
 
