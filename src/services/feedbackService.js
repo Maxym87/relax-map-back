@@ -1,5 +1,10 @@
 import { Feedback } from '../models/feedback.js';
+<<<<<<< HEAD
+import { FEEDBACK_SORT_BY_CREATED_AT } from '../constants/feedback.js';
+import locationService from './locationService.js';
+=======
 import { Location } from '../models/location.js';
+>>>>>>> dev
 
 const getAllLocations = ({ filter = {}, sort = {}, skip = 0, limit = 0 }) => {
   return Location.find(filter).sort(sort).skip(skip).limit(limit);
@@ -9,6 +14,19 @@ const getAllLocationsCount = (filter = {}) => {
   return Location.countDocuments(filter);
 };
 
+<<<<<<< HEAD
+
+export const createFeedback = async (payload) => {
+  const { locationId, rate, description, userName } = payload;
+  const feedback = await Feedback.create({
+    rate,
+    description,
+    userName,
+  });
+  await locationService.pushFeedbackId(locationId, feedback._id);
+  await locationService.updateLocationAverageRate(locationId);
+  return Feedback.findById(feedback._id);
+=======
 const getLocationById = (locationId) => {
   return Location.findById(locationId);
 };
@@ -68,4 +86,5 @@ export default {
   updateLocation,
   pushFeedbackId,
   updateLocationAverageRate,
+>>>>>>> dev
 };

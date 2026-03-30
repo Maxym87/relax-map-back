@@ -1,18 +1,26 @@
 import createHttpError from 'http-errors';
 import * as feedbackService from '../services/feedbackService.js';
-import locationsService from '../services/locationService.js';
+import locationService from '../services/locationService.js'; // ✅ оставить этот
 import { FEEDBACK_PAGINATION } from '../constants/pagination.js';
 import { getPagination } from '../helpers/pagination.js';
-
 
 const normalizeFeedbackIdRefs = (feedbacksId) =>
   (feedbacksId || []).map((ref) => (ref && ref._id ? ref._id : ref));
 
 export const getLocationFeedbacks = async (req, res) => {
   const { locationId } = req.params;
-  const { page, perPage, skip, limit } = getPagination(req.query, FEEDBACK_PAGINATION);
 
-  const location = await locationsService.getLocationById(locationId);
+
+
+  const { page, perPage, skip, limit } = getPagination(
+    req.query,
+    FEEDBACK_PAGINATION,
+  );
+
+
+
+  const location = await locationService.getLocationById(locationId);
+
   if (!location) {
     throw createHttpError(404, 'Location not found');
   }
@@ -25,6 +33,7 @@ export const getLocationFeedbacks = async (req, res) => {
     feedbackService.countFeedbacks({ filter }),
   ]);
 
+
   const totalPages = Math.ceil(totalFeedbacks / perPage);
 
   res.status(200).json({
@@ -36,9 +45,11 @@ export const getLocationFeedbacks = async (req, res) => {
   });
 };
 
-
 export const getAllFeedbacks = async (req, res) => {
-  const { page, perPage, skip, limit } = getPagination(req.query, FEEDBACK_PAGINATION);
+  const { page, perPage, skip, limit } = getPagination(
+    req.query,
+    FEEDBACK_PAGINATION,
+  );
 
   const filter = {};
 
@@ -58,11 +69,12 @@ export const getAllFeedbacks = async (req, res) => {
   });
 };
 
-
 export const createFeedback = async (req, res) => {
   const { locationId } = req.params;
 
-  const location = await locationsService.getLocationById(locationId);
+
+  const location = await locationService.getLocationById(locationId);
+
   if (!location) {
     throw createHttpError(404, 'Location not found');
   }
@@ -78,4 +90,3 @@ export const createFeedback = async (req, res) => {
 
   res.status(201).json(feedback);
 };
-
