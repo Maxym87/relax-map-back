@@ -28,6 +28,7 @@ app.use(categoriesRoutes);
 app.use(userRoutes);
 app.use('/api/locations', locationRouter);
 app.use('/api', feedbackRouter);
+app.use('/api', userEditRouter);
 
 app.use(notFoundHandler);
 app.use(errors());
