@@ -1,4 +1,6 @@
-mport { authenticate } from '../middleware/authenticate.js';
+import { celebrate } from 'celebrate';
+import { Router } from 'express';
+import { authenticate } from '../middleware/authenticate.js';
 import {
   getLocationFeedbacks,
   getAllFeedbacks,
