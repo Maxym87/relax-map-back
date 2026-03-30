@@ -1,17 +1,17 @@
-
 import { celebrate } from 'celebrate';
 import { Router } from 'express';
-import getAllFeedbacksSchema from '../validation/getAllFeedbacksSchema.js'; 
-import getFeedbacksByLocationSchema from '../validation/getFeedbacksByLocationSchema.js'; 
-import createFeedbackSchema from '../validation/createFeedbackSchema.js'; 
-
+import { authenticate } from '../middleware/authenticate.js';
 import {
   getLocationFeedbacks,
+  getAllFeedbacks,
   createFeedback,
-  getAllFeedbacks, 
 } from '../controllers/feedbacksController.js';
 
-import { authenticate } from '../middlewares/authenticate.js'; 
+import {
+  getFeedbacksByLocationSchema,
+  getAllFeedbacksSchema,
+  createFeedbackSchema,
+} from '../validations/feedbackValidation.js';
 
 const router = Router();
 

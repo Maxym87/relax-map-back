@@ -26,6 +26,30 @@ export const getLocationFeedbacks = async (req, res) => {
   const [feedbacks, totalFeedbacks] = await Promise.all([
     feedbackService.findFeedbacks({ filter, skip, limit }),
     feedbackService.countFeedbacks({ filter }),
+]);
+
+const totalPages = Math.ceil(totalFeedbacks / perPage);
+
+  res.status(200).json({
+    page,
+    perPage,
+    totalPages,
+    totalFeedbacks,
+    feedbacks,
+  });
+};
+
+export const getAllFeedbacks = async (req, res) => {
+  const { page, perPage, skip, limit } = getPagination(
+    req.query,
+    FEEDBACK_PAGINATION,
+  );
+
+  const filter = {};
+
+  const [feedbacks, totalFeedbacks] = await Promise.all([
+    feedbackService.findFeedbacks({ filter, skip, limit }),
+    feedbackService.countFeedbacks({ filter }),
   ]);
 
   const totalPages = Math.ceil(totalFeedbacks / perPage);
@@ -33,8 +57,8 @@ export const getLocationFeedbacks = async (req, res) => {
   res.status(200).json({
     page,
     perPage,
-    totalFeedbacks,
     totalPages,
+    totalFeedbacks,
     feedbacks,
   });
 };
@@ -47,10 +71,6 @@ export const createFeedback = async (req, res) => {
   if (!location) {
     throw createHttpError(404, 'Location not found');
   }
-  if (!req.user) {
-  throw createHttpError(401, 'Unauthorized');
-}
-
 
   const payload = {
     rate: req.body.rate,
@@ -62,24 +82,4 @@ export const createFeedback = async (req, res) => {
   const feedback = await feedbackService.createFeedback(payload);
 
   res.status(201).json(feedback);
-};
-
-export const getAllFeedbacks = async (req, res) => {
-  const { page, perPage, skip, limit } = getPagination(
-    req.query,
-    FEEDBACK_PAGINATION,
-  );
-
-  const [feedbacks, total] = await Promise.all([
-    feedbackService.findFeedbacks({ filter: {}, skip, limit }),
-    feedbackService.countFeedbacks({ filter: {} }),
-  ]);
-
-  res.status(200).json({
-    page,
-    perPage,
-    total,
-    totalPages: Math.ceil(total / perPage),
-    feedbacks,
-  });
 };
