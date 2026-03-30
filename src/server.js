@@ -12,6 +12,7 @@ import categoriesRoutes from './routes/categoriesRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import locationRouter from './routes/locationRoutes.js';
 import feedbackRouter from './routes/feedbackRoutes.js';
+import userEditRouter from './routes/userEditRoutes.js';
 
 
 const PORT = process.env.PORT ?? 3000;
