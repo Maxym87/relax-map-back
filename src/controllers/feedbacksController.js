@@ -75,7 +75,7 @@ export const getAllFeedbacks = async (req, res) => {
     feedbackService.countFeedbacks({ filter: {} }),
   ]);
 
-  res.json({
+  res.status(200).json({
     page,
     perPage,
     total,

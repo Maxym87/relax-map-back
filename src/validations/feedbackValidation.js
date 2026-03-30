@@ -1,5 +1,5 @@
 import { Joi, Segments } from 'celebrate';
-import { FEEDBACK_PAGINATION } from '../constants/pagination.js';
+//import { FEEDBACK_PAGINATION } from '../constants/pagination.js';
 import { locationIdValidator } from './locationsValidation.js';
 
 const feedbackListQuerySchema = Joi.object({
@@ -15,6 +15,7 @@ export const getFeedbacksByLocationSchema = {
 export const getAllFeedbacksSchema = {
   [Segments.QUERY]: feedbackListQuerySchema,
 };
+
 
 export const createFeedbackSchema = {
   ...locationIdValidator,
