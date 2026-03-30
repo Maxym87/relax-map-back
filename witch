@@ -1,0 +1,25 @@
+  [31morigin/HEAD[m -> origin/main
+  [31morigin/api-feedbacks[m
+  [31morigin/api-users[m
+  [31morigin/categories-api[m
+  [31morigin/create-location[m
+  [31morigin/dev[m
+  [31morigin/feat/auth-refreshSession[m
+  [31morigin/feat/auth-register-and-login[m
+  [31morigin/feat/authenticate[m
+  [31morigin/feat/fix-authRoutes[m
+  [31morigin/feature/auth-v2[m
+  [31morigin/feature/logout[m
+  [31morigin/feedbacks[m
+  [31morigin/fix-fb-bugs[m
+  [31morigin/fix-feedbacks[m
+  [31morigin/fix-loc-serv[m
+  [31morigin/fix/post-merge-bugs[m
+  [31morigin/main[m
+  [31morigin/public-locations[m
+  [31morigin/revert-31-create-location[m
+  [31morigin/revert-33-feat/auth-refreshSession[m
+  [31morigin/revert-35-revert-33-feat/auth-refreshSession[m
+  [31morigin/revert-36-revert-31-create-location[m
+  [31morigin/revert-88-fix-fb-bugs[m
+  [31morigin/update-location[m

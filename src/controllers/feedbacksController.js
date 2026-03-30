@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors';
 import * as feedbackService from '../services/feedbackService.js';
-import locationsService from '../services/locationsService.js';
+import locationService from '../services/locationService.js';
 import { FEEDBACK_PAGINATION } from '../constants/pagination.js';
 import { getPagination } from '../helpers/pagination.js';
 
@@ -14,7 +14,7 @@ export const getLocationFeedbacks = async (req, res) => {
     FEEDBACK_PAGINATION,
   );
 
-  const location = await locationsService.getLocationById(locationId);
+  const location = await locationService.getLocationById(locationId);
 
   if (!location) {
     throw createHttpError(404, 'Location not found');
@@ -42,7 +42,7 @@ export const getLocationFeedbacks = async (req, res) => {
 export const createFeedback = async (req, res) => {
   const { locationId } = req.params;
 
-  const location = await locationsService.getLocationById(locationId);
+  const location = await locationService.getLocationById(locationId);
 
   if (!location) {
     throw createHttpError(404, 'Location not found');

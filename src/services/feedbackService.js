@@ -1,6 +1,6 @@
 import { Feedback } from '../models/feedback.js';
 import { FEEDBACK_SORT_BY_CREATED_AT } from '../constants/feedback.js';
-import locationsService from './locationsService.js';
+import locationService from './locationService.js';
 
 export const findFeedbacks = ({ filter, skip, limit }) => {
   return Feedback.find(filter)
@@ -21,7 +21,7 @@ export const createFeedback = async (payload) => {
     description,
     userName,
   });
-  await locationsService.pushFeedbackId(locationId, feedback._id);
-  await locationsService.updateLocationAverageRate(locationId);
+  await locationService.pushFeedbackId(locationId, feedback._id);
+  await locationService.updateLocationAverageRate(locationId);
   return Feedback.findById(feedback._id);
 };
