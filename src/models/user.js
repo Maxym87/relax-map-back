@@ -1,23 +1,22 @@
-import { model, Schema } from 'mongoose';
+// models/user.js
+import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema(
   {
     name: { type: String, trim: true },
     email: { type: String, unique: true, required: true, trim: true },
     password: { type: String, required: true, minlength: 8 },
-    avatarUrl: {                          
+    avatarURL: {
       type: String,
-      default: 'https://ac.goit.global/fullstack/react/default-avatar.jpg',
+      default: 'https://ac.goit.global/fullstack/react/default-avatar.jpg'
     },
     articlesAmount: { type: Number, default: 0 },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false }
 );
 
 userSchema.pre('save', function () {
-  if (!this.name) {
-    this.name = this.email;
-  }
+  if (!this.name) this.name = this.email;
 });
 
 userSchema.methods.toJSON = function () {
@@ -26,6 +25,4 @@ userSchema.methods.toJSON = function () {
   return obj;
 };
 
-
 export const User = model('User', userSchema);
-

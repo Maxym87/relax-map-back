@@ -1,3 +1,5 @@
+
+// middleware/authenticateEdit.js
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user.js';
 
@@ -34,7 +36,7 @@ export const authenticate = async (req, res, next) => {
 
     req.user = user;
     next();
-  } catch (error) {
+  } catch {
     return res.status(401).json({
       status: 401,
       message: 'Not authorized',
