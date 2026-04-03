@@ -16,20 +16,20 @@ import {
 const router = Router();
 
 router.get(
-  '/api/locations/:locationId/feedbacks',
+  '/locations/:locationId/feedbacks',
   celebrate(getFeedbacksByLocationSchema, { abortEarly: false }),
   getLocationFeedbacks,
 );
 
 router.post(
-  '/api/locations/:locationId/feedbacks',
+  '/locations/:locationId/feedbacks',
   authenticate,
   celebrate(createFeedbackSchema, { abortEarly: false }),
   createFeedback,
 );
 
 router.get(
-  '/feedbacks',
+  '/',
   celebrate(getAllFeedbacksSchema, { abortEarly: false }),
   getAllFeedbacks,
 );

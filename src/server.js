@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use('/api/locations', locationRouter);
 app.use('/api/feedback', feedbackRouter);
 app.use('/api/categories', categoriesRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
 

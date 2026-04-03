@@ -5,7 +5,7 @@ import {  getAllRegions, getAllLocationTypes } from "../controllers/categoriesCo
 
 const router = Router();
 
-router.get('/api/categories/regions', getAllRegions);
-router.get('/api/categories/location-types', getAllLocationTypes);
+router.get('/regions', getAllRegions);
+router.get('/location-types', getAllLocationTypes);
 
 export default router;

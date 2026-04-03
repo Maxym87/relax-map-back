@@ -14,18 +14,19 @@ import {
 const router = Router();
 
 router.get('/current', authenticate, getCurrentUserController);
-
-
-router.get('/:userId', getUserByIdController);
-
-router.get('/:userId/locations', getUserLocationsController);
-
-
 router.patch(
   '/me',
   authenticate,
   validateBody(updateUserProfileSchema),
   updateUserProfileController
 );
+
+router.get('/:userId/locations', getUserLocationsController);
+router.get('/:userId', getUserByIdController);
+
+
+
+
+
 
 export default router;
