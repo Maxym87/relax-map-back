@@ -26,11 +26,11 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-app.use(authRoutes);
-app.use(categoriesRoutes);
-app.use(userRoutes);
 app.use('/api/locations', locationRouter);
-app.use('/api', feedbackRouter);
+app.use('/api/feedback', feedbackRouter);
+app.use('/api/categories', categoriesRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 
 app.use(notFoundHandler);

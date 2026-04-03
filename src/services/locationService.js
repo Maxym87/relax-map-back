@@ -26,7 +26,10 @@ const getLocations = async ({ page = 1, limit = 10, region, type, search }) => {
   const locations = await Location.find(filter)
     .skip(skip)
     .limit(limit)
-    .populate('feedbacksId');
+    .populate('feedbacksId')
+     .populate('owner')             // владелец локации
+  .populate('region')            // регион
+  .populate('type');
 
   return locations;
 };
@@ -42,9 +45,10 @@ const createLocation = async (data) => {
 };
 
 const pushFeedbackId = (locationId, feedbackId) => {
-  return Location.findByIdAndUpdate(locationId, {
-    $push: { feedbacksId: feedbackId },
-  });
+  return Location.findByIdAndUpdate(locationId,
+    {$push: { feedbacksId: feedbackId }},
+    {new: true}
+  );
 };
 
 const updateLocationAverageRate = async (locationId) => {
