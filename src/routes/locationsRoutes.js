@@ -1,5 +1,9 @@
-import express from 'express';
+// routes/locationsRoutes.js
+import { Router } from 'express';
+
 import {
+  getLocationsController,
+  getLocationByIdController,
   createLocationController,
   updateLocationController,
 } from '../controllers/locationController.js';
@@ -13,7 +17,10 @@ import {
   updateLocationSchema,
 } from '../validations/locations.js';
 
-const router = express.Router();
+const router = Router();
+
+router.get('/', getLocationsController);
+router.get('/:id', isValidId('id'), getLocationByIdController);
 
 router.post(
   '/',

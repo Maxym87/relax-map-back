@@ -1,3 +1,5 @@
+// server.js
+
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -10,9 +12,9 @@ import { errors } from 'celebrate';
 import authRoutes from './routes/authRoutes.js';
 import categoriesRoutes from './routes/categoriesRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-import locationRouter from './routes/locationRoutes.js';
+import locationRouter from './routes/locationsRoutes.js';
 import feedbackRouter from './routes/feedbackRoutes.js';
-import userEditRouter from './routes/userEditRoutes.js';
+
 
 
 const PORT = process.env.PORT ?? 3000;
@@ -29,7 +31,7 @@ app.use(categoriesRoutes);
 app.use(userRoutes);
 app.use('/api/locations', locationRouter);
 app.use('/api', feedbackRouter);
-app.use('/api', userEditRouter);
+
 
 app.use(notFoundHandler);
 app.use(errors());

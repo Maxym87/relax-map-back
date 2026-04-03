@@ -1,3 +1,4 @@
+// models/location.js
 
 import { Schema, model } from 'mongoose';
 

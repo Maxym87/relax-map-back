@@ -1,3 +1,5 @@
+// validations/location.js
+
 import Joi from 'joi';
 
 export const createLocationSchema = Joi.object({

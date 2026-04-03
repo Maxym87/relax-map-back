@@ -1,3 +1,5 @@
+// routes/categoriesRoutes.js
+
 import { Router } from "express";
 import {  getAllRegions, getAllLocationTypes } from "../controllers/categoriesController.js";
 

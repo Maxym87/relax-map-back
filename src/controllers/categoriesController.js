@@ -1,3 +1,5 @@
+// controllers/categoriesController.js
+
 import { Region, LocationType } from "../models/location.js";
 
 export const getAllRegions = async (req, res) => {

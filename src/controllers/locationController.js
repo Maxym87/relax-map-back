@@ -1,16 +1,17 @@
+// controllers/locationController.js
 
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
-import {Location} from '../models/location.js';
+import { Location } from '../models/location.js';
 import locationService from '../services/locationService.js';
 
 const { getLocations, getLocationById } = locationService;
 
-
 export const getLocationsController = async (req, res) => {
-  const { page, limit, region, type, search } = req.query;
+const { page = 1, limit = 10, region, type, search } = req.query;
 
-  if (region && !mongoose.Types.ObjectId.isValid(region)) {
+
+ if (region && !mongoose.Types.ObjectId.isValid(region)) {
     throw createHttpError(400, 'Invalid region id');
   }
 
@@ -33,7 +34,6 @@ export const getLocationsController = async (req, res) => {
   });
 };
 
-
 export const getLocationByIdController = async (req, res) => {
   const { id } = req.params;
 
@@ -54,81 +54,58 @@ export const getLocationByIdController = async (req, res) => {
   });
 };
 
-
-
 export const createLocationController = async (req, res) => {
-  try {
-    const userId = req.user._id;
+  const userId = req.user._id;
 
-    if (!req.file) {
-      return res.status(400).json({
-        message: 'Image is required',
-      });
-    }
-
-    const location = await Location.create({
-      ...req.body,
-      owner: userId,
-      images: [req.file.buffer.toString('base64')],
-    });
-
-    res.status(201).json({
-      status: 201,
-      data: location,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+  if (!req.file) {
+    throw createHttpError(400, 'Image is required');
   }
+
+  const location = await Location.create({
+    ...req.body,
+    owner: userId,
+    images: [req.file.buffer.toString('base64')],
+  });
+
+  res.status(201).json({
+    status: 201,
+    data: location,
+  });
 };
 
-
 export const updateLocationController = async (req, res) => {
-  try {
-    const { locationId } = req.params;
-    const userId = req.user._id;
+  const { locationId } = req.params;
+  const userId = req.user._id;
 
-    const location = await Location.findById(locationId);
+  const location = await Location.findById(locationId);
 
-    if (!location) {
-      return res.status(404).json({
-        status: 404,
-        message: 'Location not found',
-      });
-    }
-
-    if (location.owner.toString() !== userId.toString()) {
-      return res.status(403).json({
-        status: 403,
-        message: 'Forbidden',
-      });
-    }
-
-    const updatedData = {
-      ...req.body,
-    };
-
-    if (req.file) {
-      updatedData.images = [req.file.buffer.toString('base64')];
-    }
-
-    const updatedLocation = await Location.findByIdAndUpdate(
-      locationId,
-      updatedData,
-      {
-        new: true,
-        runValidators: true,
-      },
-    );
-
-    return res.status(200).json({
-      status: 200,
-      data: updatedLocation,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
+  if (!location) {
+    throw createHttpError(404, 'Location not found');
   }
+
+  if (location.owner.toString() !== userId.toString()) {
+    throw createHttpError(403, 'Forbidden');
+  }
+
+  const updatedData = {
+    ...req.body,
+  };
+
+  if (req.file) {
+    updatedData.images = [req.file.buffer.toString('base64')];
+  }
+
+  const updatedLocation = await Location.findByIdAndUpdate(
+    locationId,
+    updatedData,
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  res.status(200).json({
+    status: 200,
+    data: updatedLocation,
+  });
 };

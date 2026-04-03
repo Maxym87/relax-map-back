@@ -1,15 +1,12 @@
 
 import { Router } from 'express';
 import { celebrate } from 'celebrate';
-
 import { authenticate } from '../middleware/authenticate.js';
-
 import {
   getLocationFeedbacks,
   getAllFeedbacks,
   createFeedback,
 } from '../controllers/feedbackController.js';
-
 import {
   getFeedbacksByLocationSchema,
   getAllFeedbacksSchema,
@@ -32,7 +29,7 @@ router.post(
 );
 
 router.get(
-  '/api/feedbacks',
+  '/feedbacks',
   celebrate(getAllFeedbacksSchema, { abortEarly: false }),
   getAllFeedbacks,
 );
