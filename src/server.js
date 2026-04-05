@@ -16,7 +16,6 @@ import locationRouter from './routes/locationsRoutes.js';
 import feedbackRouter from './routes/feedbackRoutes.js';
 
 
-
 const PORT = process.env.PORT ?? 3000;
 
 const app = express();
@@ -25,9 +24,10 @@ app.use(logger);
 app.use(express.json());
 app.use(cors({
     origin: process.env.FRONTEND_DOMAIN,
+    // http://localhost:3000
     credentials: true,
   }));
-  
+
 app.use(cookieParser());
 
 app.use('/api/locations', locationRouter);
