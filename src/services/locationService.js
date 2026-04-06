@@ -24,7 +24,6 @@ if (sort === 'popular') sortObj.rate = -1;
     .limit(Number(limit))
     .toArray();
 
-  console.log('locations log:', locations.length);
   return locations;
 };
 
@@ -54,11 +53,6 @@ const getLocationById = async (id) => {
     location.locationTypeName = locType?.type ?? location.locationType;
   }
 
-  console.log('ownerId:', location.owner);
-  const user = await mongoose.connection.db
-    .collection('users')
-    .findOne({ _id: new mongoose.Types.ObjectId(location.owner) });
-  console.log('user found:', user);
   return location;
 };
 
