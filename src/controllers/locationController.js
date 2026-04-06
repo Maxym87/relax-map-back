@@ -10,15 +10,6 @@ const { getLocations, getLocationById } = locationService;
 export const getLocationsController = async (req, res) => {
 const { page = 1, limit = 10, region, type, search } = req.query;
 
-
- if (region && !mongoose.Types.ObjectId.isValid(region)) {
-    throw createHttpError(400, 'Invalid region id');
-  }
-
-  if (type && !mongoose.Types.ObjectId.isValid(type)) {
-    throw createHttpError(400, 'Invalid type id');
-  }
-
   const data = await getLocations({
     page,
     limit,
