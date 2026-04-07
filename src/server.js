@@ -24,7 +24,6 @@ app.use(logger);
 app.use(express.json());
 app.use(cors({
     origin: process.env.FRONTEND_DOMAIN,
-    // http://localhost:3000
     credentials: true,
   }));
 
@@ -42,6 +41,7 @@ app.use(errors());
 app.use(errorHandler);
 
 await connectMongoDB();
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
