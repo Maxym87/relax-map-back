@@ -15,23 +15,18 @@ export const createSession = async (userId) => {
   });
 };
 
+const isProduction = process.env.NODE_ENV === 'production';
+
+const getCookieOptions = (maxAge) => ({
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? 'none' : 'lax',
+  maxAge,
+  path: '/',
+});
+
 export const setSessionCookies = (res, session) => {
-  res.cookie('accessToken', session.accessToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none',
-    maxAge: FIFTEEN_MINUTES,
-  });
-  res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none',
-    maxAge: ONE_DAY,
-  });
-  res.cookie('sessionId', session._id, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none',
-    maxAge: ONE_DAY,
-  });
+  res.cookie('accessToken', session.accessToken, getCookieOptions(FIFTEEN_MINUTES));
+  res.cookie('refreshToken', session.refreshToken, getCookieOptions(ONE_DAY));
+  res.cookie('sessionId', session._id.toString(), getCookieOptions(ONE_DAY));
 };

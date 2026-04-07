@@ -1,18 +1,18 @@
 // services/locationService.js
 import { Location } from '../models/location.js';
 import { Feedback } from '../models/feedback.js';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 
 const getLocations = async ({ page = 1, limit = 10, region, type, search, sort }) => {
   const filter = {};
 
   const sortObj = {};
-if (sort === 'rating') sortObj.rate = -1;
+if (sort === 'rating') sortObj.rating = -1;
 if (sort === 'newest') sortObj.createdAt = -1;
-if (sort === 'popular') sortObj.rate = -1;
+if (sort === 'popular') sortObj.rating = -1;
 
   if (region) filter.region = region;
-  if (type) filter.locationType = type;
+  if (type) filter.type = type;
   if (search) filter.name = { $regex: search, $options: 'i' };
 
   const skip = (page - 1) * Number(limit);
@@ -29,29 +29,20 @@ if (sort === 'popular') sortObj.rate = -1;
 
 const getLocationById = async (id) => {
   const location = await Location.findById(id)
+    .populate('owner', 'name')
+    .populate('region', 'region slug')
+    .populate('type', 'type slug')
     .populate('feedbacksId')
     .lean();
 
   if (!location) return null;
 
-  if (location.ownerId) {
-    const user = await mongoose.connection.db
-      .collection('users')
-      .findOne({ _id: new mongoose.Types.ObjectId(location.ownerId.toString()) });
-    location.authorName = user?.name ?? '';
-  }
-  if (location.region && typeof location.region === 'string') {
-    const region = await mongoose.connection.db
-      .collection('regions')
-      .findOne({ slug: location.region });
-    location.regionName = region?.region ?? location.region;
-  }
-  if (location.locationType && typeof location.locationType === 'string') {
-    const locType = await mongoose.connection.db
-      .collection('location_types')
-      .findOne({ slug: location.locationType });
-    location.locationTypeName = locType?.type ?? location.locationType;
-  }
+  location.ownerId = location.owner?._id ?? location.owner ?? null;
+  location.authorName = location.owner?.name ?? '';
+  location.regionName = location.region?.region ?? '';
+  location.locationType = location.type?.slug ?? location.type ?? '';
+  location.locationTypeName = location.type?.type ?? '';
+  location.image = location.images?.[0] ?? '';
 
   return location;
 };

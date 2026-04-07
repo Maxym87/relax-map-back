@@ -17,6 +17,7 @@ export const createFeedback = async (payload) => {
   const { locationId, rate, description, userName } = payload;
 
   const feedback = await Feedback.create({
+    locationId,
     rate,
     description,
     userName,
